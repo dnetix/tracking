@@ -2,7 +2,7 @@ function [region] = getRegionFromImage(data, color)
 %GETREGIONFROMIMAGE Obtains the regions of a image for a determined color
 %   The color value can be 1 for Red, 2 for Green, 3 for blue
 
-minpixel = 800;
+minpixel = 300;
 level = 0.18;
 
 % For the layer of the entered color substract the gray version of the
