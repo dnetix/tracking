@@ -3,6 +3,7 @@ a = imaqhwinfo;
 
 color2track = 1;
 showBoxes = true;
+maxFrames = 200;
 
 % Capture the video frames using the videoinput function
 % You have to replace the resolution & your installed adaptor name.
@@ -17,9 +18,18 @@ vid.FrameGrabInterval = 5;
 start(vid)
 
 A = CirclesClass(vid.VideoResolution, 6);
+
 score = 0;
-% Set a loop that stop after 100 frames of aquisition
-while(vid.FramesAcquired<=200)
+
+txt = uicontrol('Style', 'text',...
+       'String', strcat('Puntaje: 0 - ', int2str(maxFrames)),...
+       'Units','pixels',...
+       'HorizontalAlignment','left',...
+       'ForegroundColor', [0, 0, 1],...
+       'FontSize', 24,...
+       'Position', [20 10 250 40]);
+
+while(vid.FramesAcquired <= maxFrames)
     
     % Get the snapshot of the current frame
     data = getsnapshot(vid);
@@ -50,8 +60,9 @@ while(vid.FramesAcquired<=200)
     A = A.next;
     
     hold off
+    puntaje = strcat('Puntaje: ', int2str(score), ' - ', int2str(maxFrames - vid.FramesAcquired));
+    txt.String = puntaje;
 end
-% Both the loops end here.
 
 % Stop the video aquisition.
 stop(vid);

@@ -79,7 +79,7 @@ classdef CirclesClass
                 [x, y, r, rangeX, rangeY] = rearrange(active);
                 j = 1;
                 checking = true;
-                while j < length(regions) && checking
+                while j <= length(regions) && checking
                     region = regions(j);
                     xIntersect = intersect(rangeX, round(region.Centroid(1) - (region.Centroid(1) - region.BoundingBox(1))):round(region.Centroid(1) + (region.Centroid(1) - region.BoundingBox(1))));
                     % Check if the colision exists on the x axis

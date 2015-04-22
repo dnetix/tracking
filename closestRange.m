@@ -6,7 +6,7 @@ function [ r ] = closestRange(center, range)
         if (center - r) > 0
             minor = true;
             i = 1;
-            while i < length(range) && minor
+            while i <= length(range) && minor
                 r = range(i);
                 if (center - r) <= 0
                     minor = false;
