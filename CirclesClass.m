@@ -112,7 +112,6 @@ classdef CirclesClass
                 obj = obj.remove(collisioned(i));
                 collisioned = collisioned - 1;
             end
-            
         end
     end
     

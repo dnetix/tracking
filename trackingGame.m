@@ -17,7 +17,7 @@ vid.FrameGrabInterval = 5;
 start(vid)
 
 A = CirclesClass(vid.VideoResolution, 6);
-
+score = 0;
 % Set a loop that stop after 100 frames of aquisition
 while(vid.FramesAcquired<=200)
     
@@ -37,13 +37,14 @@ while(vid.FramesAcquired<=200)
     hold on
     
     A = A.checkColision(regions);
+    score = score + A.collisions;
     
     if showBoxes
         displayMatchedBoxes(regions);
     end
     
     if A.count > 0
-        circles(A.cxr, A.cyr, A.crr);
+        circles(A.cxr, A.cyr, A.crr, 'facealpha', 0.8);
     end
     
     A = A.next;
@@ -59,4 +60,4 @@ stop(vid);
 flushdata(vid);
 
 % Clear all variables
-sprintf('%s','That was all about Image tracking, Guess that was pretty easy :) ')
+sprintf('%s%d','Numero de globos explotados ', score)
