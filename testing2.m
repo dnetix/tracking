@@ -1,6 +1,6 @@
 function testing2
-    a = imaqhwinfo;
-    [camera_name, camera_id, format] = getCameraInfo(a);
+    cam = imaqhwinfo;
+    [camera_name, camera_id, format] = getCameraInfo(cam);
     vid = videoinput(camera_name, camera_id, format);
 
     % Set the properties of the video object
@@ -12,11 +12,10 @@ function testing2
     start(vid)
     
     frame = figure('Visible', 'off');
-%     data = imread('palette.png');
-    a = [255, 0, 0];
+    colorTrack = [255, 0, 0];
     showBoxes = true;
     score = 0;
-    maxFrames = 200;
+    variance = 10;
     
     btn1 = uicontrol('Style', 'pushbutton', 'String', 'Change',...
         'Position', [100 10 50 20],...
@@ -24,6 +23,10 @@ function testing2
     btn2 = uicontrol('Style', 'pushbutton', 'String', 'Stop',...
         'Position', [200 10 50 20],...
         'Callback', @stopVid);
+    sld = uicontrol('Style', 'slider',...
+        'Min',1,'Max',255,'Value',10,...
+        'Position', [400 10 120 20],...
+        'Callback', @changeVariance); 
     
 %     txt = uicontrol('Style', 'text',...
 %        'String', strcat('Puntaje: 0 - ', int2str(maxFrames)),...
@@ -36,8 +39,9 @@ function testing2
     frame.Visible = 'on';
     
     A = CirclesClass(vid.VideoResolution, 6);
+    playing = true;
     
-    while(vid.FramesAcquired <= maxFrames)
+    while(playing)
     
         % Get the snapshot of the current frame
         data = getsnapshot(vid);
@@ -47,7 +51,7 @@ function testing2
         % we have to subtract the color component
         % from the grayscale image to extract the red components in the image.
 
-        regions = getRegionFromImageV2(data, a);
+        regions = getRegionFromImageV2(data, colorTrack, variance);
 
         % Display the image
         imshow(data)
@@ -68,16 +72,19 @@ function testing2
         A = A.next;
 
         hold off
-        puntaje = strcat('Puntaje: ', int2str(score), ' - ', int2str(maxFrames - vid.FramesAcquired));
+%         puntaje = strcat('Puntaje: ', int2str(score), ' - ', int2str(maxFrames - vid.FramesAcquired));
 %         txt.String = puntaje;
     end
     
     stop(vid);
     
     function changeColor(source, callback)
-        a = impixel(data);
+        colorTrack = impixel(data);
     end
     function stopVid(source, callback)
-        stop(vid);
+        playing = false;
+    end
+    function changeVariance(source, callback)
+        variance = round(source.Value);
     end
 end

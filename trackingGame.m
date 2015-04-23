@@ -3,7 +3,7 @@ a = imaqhwinfo;
 
 color2track = 1;
 showBoxes = true;
-maxFrames = 200;
+maxFrames = 50;
 
 % Capture the video frames using the videoinput function
 % You have to replace the resolution & your installed adaptor name.
