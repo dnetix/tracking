@@ -1,7 +1,7 @@
 %% Launcher
 % Este es el script a correr para jugar BallonsGame
-% "Juego" para reventar globos mediante seguimiento de color en Matlab con
-% la camara web.
+% Juego para reventar globos mediante la seleccion y posterior seguimiento 
+% de un color en Matlab con la camara web.
 %
 % Procesamiento Digital de Imagenes
 % Por: Diego Calle - dnetix@gmail.com
