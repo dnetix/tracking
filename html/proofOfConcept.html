@@ -1,0 +1,287 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Prueba de concepto usada</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-24"><meta name="DC.source" content="proofOfConcept.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Prueba de concepto usada</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Obtencion de la informacion de la imagen</a></li><li><a href="#2">Seleccion del pixel con el color deseado</a></li><li><a href="#3">Filtrado de color</a></li><li><a href="#4">Eliminacion de valores</a></li><li><a href="#5">Obtencion de los centros y las cajas de union</a></li><li><a href="#6">Resultados</a></li></ul></div><h2>Obtencion de la informacion de la imagen<a name="1"></a></h2><pre class="codeinput"><span class="comment">% Cargamos en una variable la informacion RGB de la imagen de prueba</span>
+data = imread(<span class="string">'resources\rubik.jpg'</span>);
+<span class="comment">% Mostramos la imagen antes de realizar cualquier procedimiento</span>
+imshow(data);
+</pre><img vspace="5" hspace="5" src="proofOfConcept_01.png" alt=""> <h2>Seleccion del pixel con el color deseado<a name="2"></a></h2><pre class="codeinput"><span class="comment">% Selecciono el color verde de la imagen</span>
+pixelRGB = impixel(data);
+<span class="comment">% Se muestra el valor de los componentes RGB del pixel seleccionado</span>
+pixelRGB
+</pre><pre class="codeoutput">
+pixelRGB =
+
+    39   177    68
+
+</pre><img vspace="5" hspace="5" src="proofOfConcept_02.png" alt=""> <h2>Filtrado de color<a name="3"></a></h2><pre class="codeinput"><span class="comment">% Establezco una varianza de 10</span>
+variance = 10;
+[xL, yL, ~] = size(data);
+<span class="comment">% Compruebo que sea una matriz de nxmx3</span>
+<span class="comment">% Creo una matriz de igual tama&ntilde;o llena de 0</span>
+bw = zeros(xL,yL);
+<span class="comment">% Separo la informacion de la imagen en las 3 capas de color</span>
+r = data(:,:,1);
+g = data(:,:,2);
+b = data(:,:,3);
+</pre><h2>Eliminacion de valores<a name="4"></a></h2><pre class="codeinput"><span class="comment">% Para este proceso se obtienen las posiciones de la matriz que cumplan</span>
+<span class="comment">% con todas las condiciones.</span>
+
+<span class="comment">% Como primera eliminacion calculo el valor minimo en rojo</span>
+min = pixelRGB(1) - variance;
+<span class="keyword">if</span> min &lt; 0
+    min = 0;
+<span class="keyword">end</span>
+<span class="comment">% Obtengo todas las posiciones que sean mayores o iguales al valor</span>
+<span class="comment">% minimo</span>
+positions = find(r &gt;= min);
+<span class="comment">% Una vez tengo los que estan en el rango minimo ahora los intersecto</span>
+<span class="comment">% con que esten por el rango superior</span>
+positions = intersect(positions, find(r &lt;= (pixelRGB(1) + variance)));
+
+<span class="comment">% Mismo proceso con la capa verde, obtengo el valor minimo en verde</span>
+min = pixelRGB(2) - variance;
+<span class="keyword">if</span> min &lt; 0
+    min = 0;
+<span class="keyword">end</span>
+<span class="comment">% Intersecto las posiciones que ya se obtuvieron de rojo con las que</span>
+<span class="comment">% sean mayores al valor minimo en verde</span>
+positions = intersect(positions, find(g &gt;= min));
+<span class="comment">% Luego intersecto con las posiciones que cumplan la condicion para el</span>
+<span class="comment">% maximo</span>
+positions = intersect(positions, find(g &lt;= (pixelRGB(2) + variance)));
+
+<span class="comment">% Mismo proceso con la capa azul, obtengo el valor minimo en azul</span>
+min = pixelRGB(3) - variance;
+<span class="keyword">if</span> min &lt; 0
+    min = 0;
+<span class="keyword">end</span>
+<span class="comment">% Intersecto las posiciones que ya se obtuvieron de rojo y verde con las que</span>
+<span class="comment">% sean mayores al valor minimo en azul</span>
+positions = intersect(positions, find(b &gt;= min));
+<span class="comment">% Luego intersecto con las posiciones que cumplan la condicion para el</span>
+<span class="comment">% maximo</span>
+positions = intersect(positions, find(b &lt;= (pixelRGB(3) + variance)));
+
+<span class="comment">% Luego de este proceso se obtiene un vector de posiciones que hayan</span>
+<span class="comment">% cumplido todas las condiciones, para estos valores le asigno el valor</span>
+<span class="comment">% de 1 en la matriz binaria creada anteriormente</span>
+<span class="keyword">for</span> i = 1:length(positions)
+    bw(positions(i)) = 1;
+<span class="keyword">end</span>
+
+imshow(bw);
+</pre><img vspace="5" hspace="5" src="proofOfConcept_03.png" alt=""> <h2>Obtencion de los centros y las cajas de union<a name="5"></a></h2><pre class="codeinput">imshow(data);
+<span class="comment">% Remuevo los 1 que se encuentren muy aislados para remover ruido</span>
+bw = bwareaopen(bw, 300);
+<span class="comment">% Se obtienen los valores de Centro y caja de union determinados regiones</span>
+regions = regionprops(bw, <span class="string">'BoundingBox'</span>, <span class="string">'Centroid'</span>);
+<span class="comment">% Dibujamos las cajas y los centros en la imagen</span>
+hold <span class="string">on</span>
+<span class="keyword">for</span> object = 1:length(regions)
+    bb = regions(object).BoundingBox;
+    bc = regions(object).Centroid;
+    rectangle(<span class="string">'Position'</span>, bb, <span class="string">'EdgeColor'</span>, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1)
+    plot(bc(1), bc(2), <span class="string">'-m+'</span>)
+    a=text(bc(1) + 15, bc(2), strcat(<span class="string">'X: '</span>, num2str(round(bc(1))), <span class="string">'    Y: '</span>, num2str(round(bc(2)))));
+    set(a, <span class="string">'FontName'</span>, <span class="string">'Arial'</span>, <span class="string">'FontWeight'</span>, <span class="string">'bold'</span>, <span class="string">'FontSize'</span>, 12, <span class="string">'Color'</span>, <span class="string">'yellow'</span>);
+<span class="keyword">end</span>
+hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="proofOfConcept_04.png" alt=""> <h2>Resultados<a name="6"></a></h2><pre class="codeinput"><span class="comment">% Tiempo de procesado de imagenes de diferentes tama&ntilde;os</span>
+a = [2000, 1600, 1200, 800, 400, 200, 100];
+times = zeros(1, length(a));
+addpath <span class="string">function</span>;
+<span class="keyword">for</span> i = 1:length(a)
+    data = imread([<span class="string">'resources\rubik_'</span>, int2str(a(i)), <span class="string">'.jpg'</span>]);
+    start = tic;
+    hold <span class="string">on</span>;
+    regions = getRegionsColor(data, a, 10);
+    hold <span class="string">off</span>;
+    times(i) = toc(start);
+<span class="keyword">end</span>
+plot(a, times);
+ylabel(<span class="string">'Segundos'</span>); xlabel(<span class="string">'Pixeles cuadrados'</span>);
+rmpath <span class="string">function</span>;
+</pre><img vspace="5" hspace="5" src="proofOfConcept_05.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Prueba de concepto usada
+%% Obtencion de la informacion de la imagen
+
+% Cargamos en una variable la informacion RGB de la imagen de prueba
+data = imread('resources\rubik.jpg');
+% Mostramos la imagen antes de realizar cualquier procedimiento
+imshow(data);
+
+%% Seleccion del pixel con el color deseado
+
+% Selecciono el color verde de la imagen
+pixelRGB = impixel(data);
+% Se muestra el valor de los componentes RGB del pixel seleccionado
+pixelRGB
+
+%% Filtrado de color
+
+% Establezco una varianza de 10
+variance = 10;
+[xL, yL, ~] = size(data);
+% Compruebo que sea una matriz de nxmx3
+% Creo una matriz de igual tamaño llena de 0
+bw = zeros(xL,yL);
+% Separo la informacion de la imagen en las 3 capas de color
+r = data(:,:,1);
+g = data(:,:,2);
+b = data(:,:,3);
+%% Eliminacion de valores
+
+% Para este proceso se obtienen las posiciones de la matriz que cumplan
+% con todas las condiciones.
+
+% Como primera eliminacion calculo el valor minimo en rojo
+min = pixelRGB(1) - variance;
+if min < 0
+    min = 0;
+end
+% Obtengo todas las posiciones que sean mayores o iguales al valor
+% minimo
+positions = find(r >= min);
+% Una vez tengo los que estan en el rango minimo ahora los intersecto
+% con que esten por el rango superior
+positions = intersect(positions, find(r <= (pixelRGB(1) + variance)));
+
+% Mismo proceso con la capa verde, obtengo el valor minimo en verde
+min = pixelRGB(2) - variance;
+if min < 0
+    min = 0;
+end
+% Intersecto las posiciones que ya se obtuvieron de rojo con las que
+% sean mayores al valor minimo en verde
+positions = intersect(positions, find(g >= min));
+% Luego intersecto con las posiciones que cumplan la condicion para el
+% maximo
+positions = intersect(positions, find(g <= (pixelRGB(2) + variance)));
+
+% Mismo proceso con la capa azul, obtengo el valor minimo en azul
+min = pixelRGB(3) - variance;
+if min < 0
+    min = 0;
+end
+% Intersecto las posiciones que ya se obtuvieron de rojo y verde con las que
+% sean mayores al valor minimo en azul
+positions = intersect(positions, find(b >= min));
+% Luego intersecto con las posiciones que cumplan la condicion para el
+% maximo
+positions = intersect(positions, find(b <= (pixelRGB(3) + variance)));
+
+% Luego de este proceso se obtiene un vector de posiciones que hayan
+% cumplido todas las condiciones, para estos valores le asigno el valor
+% de 1 en la matriz binaria creada anteriormente
+for i = 1:length(positions)
+    bw(positions(i)) = 1;
+end
+
+imshow(bw);
+
+%% Obtencion de los centros y las cajas de union
+
+imshow(data);
+% Remuevo los 1 que se encuentren muy aislados para remover ruido
+bw = bwareaopen(bw, 300);
+% Se obtienen los valores de Centro y caja de union determinados regiones
+regions = regionprops(bw, 'BoundingBox', 'Centroid');
+% Dibujamos las cajas y los centros en la imagen
+hold on
+for object = 1:length(regions)
+    bb = regions(object).BoundingBox;
+    bc = regions(object).Centroid;
+    rectangle('Position', bb, 'EdgeColor', 'r', 'LineWidth', 1)
+    plot(bc(1), bc(2), '-m+')
+    a=text(bc(1) + 15, bc(2), strcat('X: ', num2str(round(bc(1))), '    Y: ', num2str(round(bc(2)))));
+    set(a, 'FontName', 'Arial', 'FontWeight', 'bold', 'FontSize', 12, 'Color', 'yellow');
+end
+hold off
+
+%% Resultados
+
+% Tiempo de procesado de imagenes de diferentes tamaños
+a = [2000, 1600, 1200, 800, 400, 200, 100];
+times = zeros(1, length(a));
+addpath function;
+for i = 1:length(a)
+    data = imread(['resources\rubik_', int2str(a(i)), '.jpg']);
+    start = tic;
+    hold on;
+    regions = getRegionsColor(data, a, 10);
+    hold off;
+    times(i) = toc(start);
+end
+plot(a, times);
+ylabel('Segundos'); xlabel('Pixeles cuadrados');
+rmpath function;
+
+##### SOURCE END #####
+--></body></html>
